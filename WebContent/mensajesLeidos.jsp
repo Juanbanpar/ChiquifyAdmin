@@ -89,7 +89,9 @@
 	<%for(MiMensaje mensaje: contenido){ %>        
 	</p>
 	<p>&emsp;&emsp;&emsp;Emisor: 
-	<%= mensaje.getSenderId() %>
+	<% String sender = mensaje.getSenderId(); %>
+	<% if(mensaje.getSenderId() == null) sender = "admin@admin.com"; %>
+	<%= sender %>
 	<br>
 	</p>
 	<p>&emsp;&emsp;&emsp;Contenido del mensaje : 
