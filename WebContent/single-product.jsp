@@ -120,6 +120,12 @@
 		                        </div>
 							</div>
 						</form>
+						<form METHOD=POST ACTION="showsendmessage">
+							<input type="hidden" name="emailSeller" value = <% out.print((String)product.getVendedor().getEmail()); %> readonly>
+							<div class="col-md-12 form-group">
+		                            <button type="submit" value="submit" class="primary-btn">Send message to seller</button>
+		                    </div>
+						</form>
 					</div>
 				</div>
 			</div>
