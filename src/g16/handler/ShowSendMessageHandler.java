@@ -6,14 +6,10 @@ import javax.servlet.http.HttpSession;
 
 public class ShowSendMessageHandler implements RequestHandler{
 	@Override
-	
 	public String process(HttpServletRequest request, HttpServletResponse response) {
 		
-		String email = request.getParameter("emailSeller");
-		 
 		HttpSession session = request.getSession(true);
-		session.setAttribute("emailSeller", email);
-		
+		session.setAttribute("emailSeller", request.getParameter("emailSeller"));	
 		
 		return "chat.jsp";
 	}

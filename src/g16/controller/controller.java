@@ -52,7 +52,7 @@ public class controller extends HttpServlet {
 		dictionary.put("/showuser", new ShowUserHandler());		
 		dictionary.put("/sendmessage", new SendMessage());
 		dictionary.put("/showmessages", new ShowMessages());
-		dictionary.put("/showsendmessages", new ShowSendMessageHandler());
+		dictionary.put("/showsendmessage", new ShowSendMessageHandler());
 
 
 	}
