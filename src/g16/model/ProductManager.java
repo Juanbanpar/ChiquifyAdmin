@@ -1,5 +1,6 @@
 package g16.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,6 +30,81 @@ public class ProductManager {
 		return productos;
 	}
 	
+	public List<List<Producto>> getAllProductsbyCategory(String cadena){
+		
+		List <List<Producto>> productos = new ArrayList<List<Producto>>(8);
+		
+		EntityManager em = emf.createEntityManager();
+		
+		Query q;
+		
+		try {
+			String categoria = "Abrigo";
+			q = em.createQuery("Select p from Producto p WHERE (p.titulo LIKE '%" + cadena + "%' OR p.descripcion LIKE '%" + cadena + "%') AND p.categoria = :cat")
+					.setParameter("cat", categoria);
+			productos.add(q.getResultList());
+		} catch (Exception e) {	
+		}
+		
+		try {
+			String categoria = "Pantalon";
+			q = em.createQuery("Select p from Producto p WHERE (p.titulo LIKE '%" + cadena + "%' OR p.descripcion LIKE '%" + cadena + "%') AND p.categoria = :cat")
+					.setParameter("cat", categoria);
+			productos.add(q.getResultList());
+		} catch (Exception e) {	
+		}
+		
+		try {
+			String categoria = "Zapato";
+			q = em.createQuery("Select p from Producto p WHERE (p.titulo LIKE '%" + cadena + "%' OR p.descripcion LIKE '%" + cadena + "%') AND p.categoria = :cat")
+					.setParameter("cat", categoria);
+			productos.add(q.getResultList());
+		} catch (Exception e) {	
+		}
+		
+		try {
+			String categoria = "Vestido";
+			q = em.createQuery("Select p from Producto p WHERE (p.titulo LIKE '%" + cadena + "%' OR p.descripcion LIKE '%" + cadena + "%') AND p.categoria = :cat")
+					.setParameter("cat", categoria);
+			productos.add(q.getResultList());
+		} catch (Exception e) {	
+		}
+		
+		try {
+			String categoria = "Camiseta";
+			q = em.createQuery("Select p from Producto p WHERE (p.titulo LIKE '%" + cadena + "%' OR p.descripcion LIKE '%" + cadena + "%') AND p.categoria = :cat")
+					.setParameter("cat", categoria);
+			productos.add(q.getResultList());
+		} catch (Exception e) {	
+		}
+		
+		try {
+			String categoria = "Chandal";
+			q = em.createQuery("Select p from Producto p WHERE (p.titulo LIKE '%" + cadena + "%' OR p.descripcion LIKE '%" + cadena + "%') AND p.categoria = :cat")
+					.setParameter("cat", categoria);
+			productos.add(q.getResultList());
+		} catch (Exception e) {	
+		}
+		
+		try {
+			String categoria = "Bolso";
+			q = em.createQuery("Select p from Producto p WHERE (p.titulo LIKE '%" + cadena + "%' OR p.descripcion LIKE '%" + cadena + "%') AND p.categoria = :cat")
+					.setParameter("cat", categoria);
+			productos.add(q.getResultList());
+		} catch (Exception e) {	
+		}
+		
+		try {
+			String categoria = "Accesorio";
+			q = em.createQuery("Select p from Producto p WHERE (p.titulo LIKE '%" + cadena + "%' OR p.descripcion LIKE '%" + cadena + "%') AND p.categoria = :cat")
+					.setParameter("cat", categoria);
+			productos.add(q.getResultList());
+		} catch (Exception e) {	
+		}
+		
+		return productos;
+	}
+	
 	public List<Producto> getAllProductsbyUser(Usuario user){
 		List<Producto> productos = null;
 		
@@ -46,8 +122,7 @@ public class ProductManager {
 		
 		EntityManager em = emf.createEntityManager();
 				
-		Query q = em.createQuery("Select p from Producto p WHERE p.titulo LIKE '%" + cadena + "%' OR p.descripcion"
-				+ " LIKE '%" + cadena + "%'");//.setParameter("cadena", cadena);
+		Query q = em.createQuery("Select p from Producto p WHERE p.titulo LIKE '%" + cadena + "%' OR p.descripcion LIKE '%" + cadena + "%'");
 		
 		productos = q.getResultList();
 		
