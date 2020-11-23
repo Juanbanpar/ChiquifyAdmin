@@ -38,7 +38,7 @@ public class controller extends HttpServlet {
 	 * @see Servlet#init(ServletConfig)
 	 */
 	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
+		//Dependinedo de la url se llama a un handler distinto
 		dictionary = new HashMap<String, RequestHandler>();
 		dictionary.put("/register", new RegisterHandler());
 		dictionary.put("/update", new UpdateHandler());

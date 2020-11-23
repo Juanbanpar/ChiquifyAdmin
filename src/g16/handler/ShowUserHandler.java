@@ -15,7 +15,9 @@ public class ShowUserHandler implements RequestHandler {
 
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		/*
+		 * Este handler obtiene el email del usuario a mostrar y obtiene sus datos
+		 */
 		
 		String email = request.getParameter("email");
 		

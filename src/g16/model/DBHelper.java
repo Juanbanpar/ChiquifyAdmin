@@ -16,6 +16,10 @@ import javax.sql.DataSource;
 
 public class DBHelper {
 
+	/*
+	 * Esta clase sirve como ayuda para realizar queries con JDBC sobre los usuarios del sistema.
+	 */
+	
 	private Connection _connection;
 	
 	private void connect() {
