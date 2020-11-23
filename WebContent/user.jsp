@@ -92,6 +92,10 @@
 							<form action="myproducts.jsp">
                                 <input type="submit" class="primary-btn" value="User products" />
                             </form>
+							<h4>Check user buyed products</h4>
+							<form action="buyed.jsp">
+                                <input type="submit" class="primary-btn" value="Buyed products" />
+                            </form>
 						</div>
 					</div>
 				</div>

@@ -134,7 +134,7 @@ public class ProductManager {
 		
 		EntityManager em = emf.createEntityManager();
 		
-		Query q = em.createQuery("Select * from Producto WHERE comprador = " + user.getEmail() + " and estado = 'vendido'");
+		Query q = em.createQuery("Select p from Producto p WHERE p.comprador = :user").setParameter("user", user);
 		
 		productos = q.getResultList();
 		
