@@ -46,6 +46,8 @@ public class DeleteHandler implements RequestHandler{
 		 }catch(HTTPException h) {
 			   switch(h.getStatusCode()) {
 			   
+			   System.out.println(h.getStatusCode());
+			   
 			   	case 404:
 			   		return "404.jsp";
 			   		
