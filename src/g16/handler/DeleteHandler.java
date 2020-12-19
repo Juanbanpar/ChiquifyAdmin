@@ -27,12 +27,9 @@ public class DeleteHandler implements RequestHandler{
 		try {
 			HttpSession session = request.getSession(true);
 			String email = (String) session.getAttribute("email");
-			
-			
-			
+
 			String query = "usuarios/delete/" + email;
 			
-			System.out.println("print query" + query);
 			
 			Client client = ClientBuilder.newClient();
 			WebTarget webResource = client.target("http://localhost:11604").path(query);
@@ -57,6 +54,6 @@ public class DeleteHandler implements RequestHandler{
 			   }// fin switch
 		   }// fin catch
 		
-		return "index.jsp";
+		return "index";
 	}
 }

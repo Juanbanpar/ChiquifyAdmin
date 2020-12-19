@@ -42,7 +42,7 @@
 			<nav class="navbar navbar-expand-lg navbar-light main_box">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="index.jsp"><img src="img/logo.png" alt=""></a>
+					<a class="navbar-brand logo_h" href="index"><img src="img/logo.png" alt=""></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="icon-bar"></span>
@@ -90,12 +90,12 @@
 			rows="8" cols="60"></textarea> <br> <BR>
 			
 		 <br> <BR> &emsp;&emsp;&emsp;<INPUT class="primary-btn" type="submit" name="ejecutar1"
-			value="ESCRIBIR MENSAJE EN LA COLA">
+			value="ESCRIBIR MENSAJE">
 	</FORM>
 	
 	<FORM name="nombre" method="POST" action="showmessages">
 		<br> <BR> &emsp;&emsp;&emsp;<INPUT class="primary-btn" type="submit" name="ejecutar2"
-			value="LEER MIS MENSAJES DE LA COLA"><BR><BR>
+			value="LEER SUS MENSAJES"><BR><BR>
 	</FORM>
 
 	<script src="js/vendor/jquery-2.2.4.min.js"></script>

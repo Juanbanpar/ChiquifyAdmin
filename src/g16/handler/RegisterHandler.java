@@ -102,7 +102,7 @@ public class RegisterHandler implements RequestHandler {
 			}
 		}
 		
-        return "index.jsp";
+        return "index";
 	}
 
 }

@@ -49,18 +49,6 @@ import javax.jms.TextMessage;
 
 public class ShowMessages implements RequestHandler{
 	
-	private javax.jms.ConnectionFactory factory = null;
-	private javax.naming.InitialContext contextoInicial = null;
-	
-	private javax.jms.Destination cola = null; //Destination
-	private javax.jms.Connection Qcon = null;
-	private javax.jms.Session QSes = null;
-	
-	private javax.jms.MessageProducer Mpro = null;
-	private javax.jms.MessageConsumer Mcon = null;
-	
-
-	
 	@Override
 	public String process(HttpServletRequest request, HttpServletResponse response) {
 		/*

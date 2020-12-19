@@ -82,20 +82,19 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-3">
-			
+					<jsp:useBean id="usuarios" type="java.util.List<g16.model.Usuario>" scope="request" />
 						<h3>List of users</h3>
-						<% DBHelper helper = new DBHelper(); %>
-						<% List<Usuario> users = helper.getAllUsers(); %>
-						<% for(int i = 0; i < users.size(); i++){ %>
+						
+						<% for(Usuario u: usuarios) { %>
 							<form class="row login_form" METHOD=POST ACTION="showuser">
-								<input type="text" name="email" value = <% out.print(users.get(i).getEmail()); %> style="width: 100%" readonly>
+								<input type="text" name="email" value = <% out.print(u.getEmail()); %> style="width: 100%" readonly>
 								<div class="col-md-12 form-group">
 									<button type="submit" value="submit" class="primary-btn">Edit</button>
 								</div>
 							</form>
 							
 							<form class="row login_form" METHOD=POST ACTION="showsendmessage">
-							<input type="hidden" name="emailSeller" value = <% out.print(users.get(i).getEmail()); %> readonly>
+							<input type="hidden" name="emailSeller" value = <% out.print(u.getEmail()); %> readonly>
 								<div class="col-md-12 form-group">
 									<button type="submit" value="submit" class="primary-btn">CHAT</button>
 								</div>
