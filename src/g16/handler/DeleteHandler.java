@@ -8,6 +8,11 @@ import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
+import javax.xml.ws.http.HTTPException;
 
 import g16.model.DBHelper;
 import g16.model.Usuario;
@@ -19,14 +24,34 @@ public class DeleteHandler implements RequestHandler{
 		 * Este handler sirve para dar de baja a un usuario del sistema
 		 */
 		
-		HttpSession session = request.getSession(true);
-		String email = (String) session.getAttribute("email");
+		try {
+			HttpSession session = request.getSession(true);
+			String email = (String) session.getAttribute("email");
+			
+			String query = "usuarios/delete/" + email;
+			
+			Client client = ClientBuilder.newClient();
+			WebTarget webResource = client.target("http://localhost:11604").path(query);
+			Response result = webResource.request().accept("application/json").delete();
+			
+			Response auxRespon = webResource.request().accept("application/json").get();
+			if (auxRespon.getStatus() != Response.Status.OK.getStatusCode()) {
+				throw new HTTPException(auxRespon.getStatus());
+			}
+				
+			session.invalidate();
+			
+		 }catch(HTTPException h) {
+			   switch(h.getStatusCode()) {
+			   
+			   	case 404:
+			   		return "404.jsp";
+			   		
+			   	default:
+			   		return "500.jsp";
+			   }// fin switch
+		   }// fin catch
 		
-		DBHelper helper = new DBHelper();
-		helper.deleteUser(email);
-		
-		session.invalidate();
-		
-		return "index.jsp";
+		return "index";
 	}
 }

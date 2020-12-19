@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import javax.naming.Context;
@@ -15,7 +14,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class DBHelper {
-
+	
 	/*
 	 * Esta clase sirve como ayuda para realizar queries con JDBC sobre los usuarios del sistema.
 	 */
@@ -70,12 +69,13 @@ public class DBHelper {
 		disconect();
 	}
 	
-	public Usuario getUser(String email) {
+	public Usuario getUser(String email, String password) {
 		connect();
 	
 		try {
-			PreparedStatement ps = _connection.prepareStatement("select * from usuario where email = ?");
+			PreparedStatement ps = _connection.prepareStatement("select * from usuario where email = ? and passwd = MD5(?)");
 			ps.setString(1, email);
+			ps.setString(2, password);
 			
 			ResultSet rs = ps.executeQuery();
 			Usuario user = null;
@@ -103,18 +103,17 @@ public class DBHelper {
 			PreparedStatement ps = _connection.prepareStatement("select * from usuario");
 			
 			ResultSet rs = ps.executeQuery();
-			List<Usuario> usuarios = new LinkedList();
 			
-			//if(rs.next()) user = new Usuario(rs.getString("email"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getString("ciudad"), rs.getString("nombre"),rs.getString("passwd"));
-			while (rs.next()) {
-				  Usuario user = new Usuario(rs.getString("email"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getString("ciudad"), rs.getString("nombre"),rs.getString("passwd"));
-				  usuarios.add(user);
+			List<Usuario> users = new ArrayList<Usuario>();
+			
+			while(rs.next()) {
+				users.add(new Usuario(rs.getString("email"), rs.getString("apellido1"), rs.getString("apellido2"), rs.getString("ciudad"), rs.getString("nombre"),rs.getString("passwd")));
 			}
-			
+						
 			ps.close();
 			
 			disconect();
-			return usuarios;
+			return users;
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -130,13 +129,14 @@ public class DBHelper {
 		
 		try {
 			PreparedStatement ps = _connection.prepareStatement("UPDATE usuario SET nombre = ?, apellido1 = ?, "
-					+ "apellido2 = ?, ciudad = ?, email = ? WHERE email = ?");
+					+ "apellido2 = ?, ciudad = ?, email = ?, passwd = MD5(?) WHERE email = ?");
 			ps.setString(1, user.getNombre());
 			ps.setString(2, user.getApellido1());
 			ps.setString(3, user.getApellido2());
 			ps.setString(4, user.getCiudad());
 			ps.setString(5, user.getEmail());
-			ps.setString(6, email);
+			ps.setString(6, user.getPasswd());
+			ps.setString(7, email);
 
 			ps.executeUpdate();
 

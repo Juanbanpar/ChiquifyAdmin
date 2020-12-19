@@ -106,14 +106,14 @@ public class Usuario implements Serializable {
 
 	public Producto addProductos1(Producto productos1) {
 		getProductos1().add(productos1);
-		productos1.setUsuario1(this);
+		productos1.setComprador(this);
 
 		return productos1;
 	}
 
 	public Producto removeProductos1(Producto productos1) {
 		getProductos1().remove(productos1);
-		productos1.setUsuario1(null);
+		productos1.setComprador(null);
 
 		return productos1;
 	}
@@ -128,14 +128,14 @@ public class Usuario implements Serializable {
 
 	public Producto addProductos2(Producto productos2) {
 		getProductos2().add(productos2);
-		productos2.setUsuario2(this);
+		productos2.setVendedor(this);
 
 		return productos2;
 	}
 
 	public Producto removeProductos2(Producto productos2) {
 		getProductos2().remove(productos2);
-		productos2.setUsuario2(null);
+		productos2.setVendedor(null);
 
 		return productos2;
 	}

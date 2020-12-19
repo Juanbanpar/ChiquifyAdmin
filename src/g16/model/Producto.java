@@ -93,8 +93,12 @@ public class Producto implements Serializable {
 		return this.imagen;
 	}
 
-	public void setImagen(InputStream imagen) {
+	public void setImagenIS(InputStream imagen) {
 		this.imagen = encodeFileToBase64Binary(imagen);
+	}
+	
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 	
 	public void setBase64(String imagen) {
@@ -121,7 +125,7 @@ public class Producto implements Serializable {
 		return this.comprador;
 	}
 
-	public void setUsuario1(Usuario comprador) {
+	public void setComprador(Usuario comprador) {
 		this.comprador = comprador;
 	}
 
@@ -129,7 +133,7 @@ public class Producto implements Serializable {
 		return this.vendedor;
 	}
 
-	public void setUsuario2(Usuario vendedor) {
+	public void setVendedor(Usuario vendedor) {
 		this.vendedor = vendedor;
 	}
 	

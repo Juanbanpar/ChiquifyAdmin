@@ -10,6 +10,14 @@ import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.xml.ws.http.HTTPException;
 
 import g16.model.*;
 
@@ -42,52 +50,40 @@ public class SendMessage implements RequestHandler{
 		
 		try {
 			
-			HttpSession session = request.getSession(true);
-			String emailOrigen = (String) session.getAttribute("email");
+			HttpSession session = request.getSession();
 			
-			String emailDestino = (String) request.getParameter("emailDestino");
+			String contenido = request.getParameter("mensaje");
+			String destino = (String) session.getAttribute("emailSeller");
+			String origen = "admin@admin.com";
+
+			Mensaje mensaje = new Mensaje();
+			mensaje.setContenido(contenido);
+			mensaje.setDestino(destino);
+			mensaje.setOrigen(origen);
+	        
+	        String query = "/mensajes/new";
 			
-			contextoInicial = new javax.naming.InitialContext();
+			Client client = ClientBuilder.newClient();
+			WebTarget webResource = client.target("http://localhost:11602").path(query);
+			Invocation.Builder invocationBuilder = webResource.request(MediaType.APPLICATION_JSON);
 			
-			factory = (javax.jms.ConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
-			cola = (javax.jms.Destination) contextoInicial.lookup(InformacionProperties.getQueue());
+			Response responseMensaje = invocationBuilder.post(Entity.entity(mensaje, MediaType.APPLICATION_JSON));
+			if (responseMensaje.getStatus() != Response.Status.OK.getStatusCode()) {
+				throw new HTTPException(responseMensaje.getStatus());
+			}
 			
-			Qcon = factory.createConnection();
-			QSes = Qcon.createSession(false, javax.jms.Session.AUTO_ACKNOWLEDGE);
-			
-            MiMensaje contenido = new MiMensaje(emailOrigen, emailDestino, request.getParameter("mensaje"));
-            
-			Mpro = QSes.createProducer(cola);
-			
-			ObjectMessage mess =  QSes.createObjectMessage(contenido);//Queremos introducir nuestro objeto mensaje
-					
-			mess.setStringProperty("Destinatario", emailDestino);
-			
+			Mensaje mensajeR = responseMensaje.readEntity(Mensaje.class);
 		
-			
-			Qcon.start();
-			
-			Mpro.send(mess);
-			
-			//System.out.println("Mensaje: " + mess.getObject().getMessage() + "__________________" );
-			
-			this.Mpro.close();
-			this.QSes.close();
-			this.Qcon.close();
-
-		} catch (javax.jms.JMSException e) {
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().getMessage());
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().toString());
-		} catch (Exception e) {
-			System.out
-					.println("JHC *************************************** Error Exception: "
-							+ e.getMessage());
+		}catch(HTTPException h) {
+			switch (h.getStatusCode()){
+				case 404:
+					return "404.jsp";
+					
+				default:
+					return "500.jsp";
+			}
 		}
-
+			
 		return "chat.jsp";
 	}
 }

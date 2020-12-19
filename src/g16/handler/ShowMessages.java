@@ -10,7 +10,12 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
+import javax.xml.ws.http.HTTPException;
 import javax.jms.ObjectMessage;
 import java.io.Serializable;
 
@@ -62,68 +67,30 @@ public class ShowMessages implements RequestHandler{
 		 * Este handler permite leer mensajes de la cola del sistema que recibe el usuario de la sesión
 		 */
 		
-		HttpSession session;
-		List<MiMensaje> contenido;
-		MessageConsumer messageConsumer;
-		Message m;
-		
 		try {
 			
-			//creamos sesión e incializamos cola y conexión
-			session = request.getSession(true);
-						contextoInicial = new javax.naming.InitialContext();
-						
-			String miEmail = (String) session.getAttribute("email");
+			Client client = ClientBuilder.newClient();
+			HttpSession session = request.getSession();
+			String email = (String)session.getAttribute("emailSeller");
 			
-			factory = (javax.jms.ConnectionFactory) contextoInicial.lookup(InformacionProperties.getQCF());
-			cola = (javax.jms.Destination) contextoInicial.lookup(InformacionProperties.getQueue());
+			String query = "/mensajes/destino/" + email;
+			WebTarget webResource = client.target("http://localhost:11602").path(query);
+			List <Mensaje> result = webResource.request().accept("application/json").get(new GenericType<List<Mensaje>> () {});
 			
-			Qcon = factory.createConnection();
-			QSes = Qcon.createSession();
+			Response auxResponse = webResource.request().accept("application/json").get();
+			if (auxResponse.getStatus() != Response.Status.OK.getStatusCode()) {
+				throw new HTTPException(auxResponse.getStatus());
+			}
 			
-			messageConsumer = QSes.createConsumer(cola); 
-
-			//esto se usa para no consumir los mensajes al leerlos
-			//QueueBrowser queueBrowser = ((Session) session).createBrowser((Queue)destination);
+			request.setAttribute("mensajesRespuesta", result);
 			
-			//empezamos conexion
-			Qcon.start();
-			contenido= new ArrayList<MiMensaje>();
-			
-			
-			//leemos mensajes
-			do {
-				m = messageConsumer.receive(100);
-				if(m!= null && m instanceof ObjectMessage) {
-					ObjectMessage aux = (ObjectMessage) m;
-					contenido.add(aux.getBody(MiMensaje.class));
-				}
-			
-			}while(m!=null);
-            
-			
-			
-			request.setAttribute("contenido", contenido);
-			
-			
-			//dejamos de leer mensajes y cerramos conexion
-			messageConsumer.close();
-			QSes.close();
-			Qcon.close();
-
-		} catch (JMSException e) {
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().getMessage());
-			System.out
-					.println(".....JHC *************************************** Error de JMS: "
-							+ e.getLinkedException().toString());
-		} catch (Exception e) {
-			System.out
-					.println("JHC *************************************** Error Exception: "
-							+ e.getMessage());
+		}catch(HTTPException h) {
+			switch(h.getStatusCode()) {
+				case 404: return "404.jsp";
+				default: return "500.jsp";
+			}
 		}
-
-		return "mensajesLeidos.jsp"; //chat.jsp? necesitamos un jsp
+			
+		return "mensajesLeidos.jsp";
 	}
 }

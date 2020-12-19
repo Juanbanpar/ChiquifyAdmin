@@ -4,5 +4,6 @@
 	<non-jta-data-source>jdbc/chiquify</non-jta-data-source>
 		<class>g16.model.Producto</class>
 		<class>g16.model.Usuario</class>
+		<class>g16.model.Mensaje</class>
 	</persistence-unit>
 </persistence>

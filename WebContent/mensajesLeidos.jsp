@@ -78,32 +78,16 @@
 
 	<!-- start messages Area -->
 	
-	<jsp:useBean id="contenido" scope="request" type="java.util.List<g16.model.MiMensaje>" ></jsp:useBean>
-	
-	<h3 align="center">
-		Mensajes recibidos en el chat: <font color="black" size="+1"></font>
-	</h3>
-	<hr>
-	<p> 
-	<%for(MiMensaje mensaje: contenido){ %>        
-	</p>
-	<p>&emsp;&emsp;&emsp;Emisor: 
-	<% String sender = mensaje.getSenderId(); %>
-	<% if(mensaje.getSenderId() == null) sender = "admin@admin.com"; %>
-	<%= sender %>
-	<br>
-	</p>
-	<p>&emsp;&emsp;&emsp;Contenido del mensaje : 
-	<%= mensaje.getMessage() %>
-	<br><hr>
-	</p>
-	<p>
-		<% } %>
-	</p>
-	<p>
-		<a href="index.html">Página de Inicio</a>
-	</p>
-	
+	<jsp:useBean id="mensajesRespuesta" type="java.util.List<g16.model.Mensaje>" scope="request" />
+	<% List<Mensaje> mensajes = mensajesRespuesta; %>
+	<% for(int i=(mensajes.size()-1); i>0; i--) {%>
+	<h5>&emsp;&emsp;Emisor:</h5>
+	&emsp;&emsp;<% out.print(mensajes.get(i).getOrigen()); %><br><br>
+	<h5>&emsp;&emsp;Receptor:</h5>
+	&emsp;&emsp;<% out.print(mensajes.get(i).getDestino()); %><br><br>	
+	<h5>&emsp;&emsp;Contenido:</h5>
+	&emsp;&emsp;<% out.print(mensajes.get(i).getContenido()); %><br><hr>
+	&emsp;&emsp;<% } %>
 	<!-- End messages Area -->
 
 	<script src="js/vendor/jquery-2.2.4.min.js"></script>

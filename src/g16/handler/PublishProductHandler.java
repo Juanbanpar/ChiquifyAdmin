@@ -12,6 +12,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.xml.ws.http.HTTPException;
 
 import g16.model.*;
 
@@ -42,6 +50,7 @@ public class PublishProductHandler implements RequestHandler{
 		String titulo = request.getParameter("titulo");
 		
 		HttpSession session = request.getSession(true);
+		if (session.getAttribute("email").equals(null)) return "error.html";
 		
 		String name = (String) session.getAttribute("name");
 		String lastname1 = (String) session.getAttribute("lastname1");
@@ -63,14 +72,36 @@ public class PublishProductHandler implements RequestHandler{
         _product.setCategoria(categoria);
         _product.setDescripcion(descripcion);
         _product.setEstado(estado);
-        _product.setImagen(imagen);
+        _product.setImagenIS(imagen);
         _product.setPrecio(precio);
         _product.setTitulo(titulo);
-        _product.setUsuario2(_usuario);
+        _product.setVendedor(_usuario);
         
+        /*
         ProductManager pm = new ProductManager();
         pm.insertProduct(_product);
+        */
+        
+        String query = "productos/new";
 		
-		return "index.jsp";
+		Client client = ClientBuilder.newClient();
+		WebTarget webResource = client.target("http://localhost:11603").path(query);
+		Invocation.Builder invocationBuilder = webResource.request(MediaType.APPLICATION_JSON);
+		
+		try {
+			Response responseProduct = invocationBuilder.post(Entity.entity(_product, MediaType.APPLICATION_JSON));
+			Producto productR = responseProduct.readEntity(Producto.class);
+				
+			if (responseProduct.getStatus() != Response.Status.OK.getStatusCode()) {
+				throw new HTTPException(responseProduct.getStatus());
+			}
+		}catch(HTTPException h) {
+			switch (h.getStatusCode()) {
+			case 404: return "404.jsp";
+			default: return "500.jsp";
+			}
+		}
+		
+		return "index";
 	}
 }
