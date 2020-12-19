@@ -123,7 +123,7 @@
 								<button type="submit" value="submit" class="primary-btn">Update</button>
 							</div>
 						</form>
-						<form class="row login_form" METHOD=DELETE ACTION="delete">
+						<form class="row login_form" METHOD=POST ACTION="delete">
 							<button type="submit" value="submit" class="primary-btn">Delete account</button>
 						</form>
 					</div>
