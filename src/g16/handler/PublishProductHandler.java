@@ -102,6 +102,6 @@ public class PublishProductHandler implements RequestHandler{
 			}
 		}
 		
-		return "index";
+		return "index.jsp";
 	}
 }

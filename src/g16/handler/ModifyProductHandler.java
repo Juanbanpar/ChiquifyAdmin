@@ -32,9 +32,8 @@ public class ModifyProductHandler implements RequestHandler{
 		 * y se aplican.
 		 */
 		
-HttpSession session = request.getSession(true);
+		HttpSession session = request.getSession(true);
 		
-		//int id = Integer.parseInt(request.getParameter("id"));
 		int id = Integer.parseInt((String)session.getAttribute("idtoEdit"));
 		String categoria = request.getParameter("categoria");
 		String descripcion = request.getParameter("descripcion");

@@ -40,19 +40,19 @@ public class controller extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		//Dependinedo de la url se llama a un handler distinto
 		dictionary = new HashMap<String, RequestHandler>();
-		dictionary.put("/register", new RegisterHandler());
+		dictionary.put("/register", new RegisterHandler()); //hecho
 		dictionary.put("/update", new UpdateHandler());
 		dictionary.put("/delete", new DeleteHandler());
-		dictionary.put("/publishproduct", new PublishProductHandler());
+		dictionary.put("/publishproduct", new PublishProductHandler()); //hecho
 		dictionary.put("/showmodifyproduct", new ShowModifyProductHandler());
 		dictionary.put("/modifyproduct", new ModifyProductHandler());
 		dictionary.put("/deleteproduct", new DeleteProductHandler());
 		dictionary.put("/search", new SearchHandler());
 		dictionary.put("/complexsearch", new ComplexSearchHandler());
 		dictionary.put("/showproduct", new ShowProductHandler());
-		dictionary.put("/showuser", new ShowUserHandler());		
-		dictionary.put("/sendmessage", new SendMessage());
-		dictionary.put("/showmessages", new ShowMessages());
+		dictionary.put("/showuser", new ShowUserHandler());	//hecho	
+		dictionary.put("/sendmessage", new SendMessage()); //hecho
+		dictionary.put("/showmessages", new ShowMessages()); //hecho
 		dictionary.put("/showsendmessage", new ShowSendMessageHandler());
 
 

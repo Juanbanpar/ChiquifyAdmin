@@ -26,21 +26,23 @@ public class DeleteHandler implements RequestHandler{
 		
 		try {
 			HttpSession session = request.getSession(true);
-			String email = (String) session.getAttribute("email");
+			String email = request.getParameter("email");
+			
+			System.out.println("email eliminar" + email);
 			
 			String query = "usuarios/delete/" + email;
 			
 			Client client = ClientBuilder.newClient();
 			WebTarget webResource = client.target("http://localhost:11604").path(query);
 			Response result = webResource.request().accept("application/json").delete();
-			
+			System.out.println("hola que ase1");
 			Response auxRespon = webResource.request().accept("application/json").get();
 			if (auxRespon.getStatus() != Response.Status.OK.getStatusCode()) {
+				System.out.println("HTTP");
 				throw new HTTPException(auxRespon.getStatus());
 			}
-				
 			session.invalidate();
-			
+			System.out.println("hola que ase");
 		 }catch(HTTPException h) {
 			   switch(h.getStatusCode()) {
 			   
@@ -52,6 +54,6 @@ public class DeleteHandler implements RequestHandler{
 			   }// fin switch
 		   }// fin catch
 		
-		return "index";
+		return "index.jsp";
 	}
 }

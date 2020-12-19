@@ -20,10 +20,9 @@ public class ShowUserHandler implements RequestHandler {
 		 */
 		
 		String email = request.getParameter("email");
-		String contraseña = request.getParameter("password");
-		
+
 		DBHelper helper = new DBHelper();
-		Usuario nuevo = helper.getUser(email, contraseña);
+		Usuario nuevo = helper.getUser(email);
 		
 		HttpSession session = request.getSession(true);
         session.setAttribute("email", nuevo.getEmail());

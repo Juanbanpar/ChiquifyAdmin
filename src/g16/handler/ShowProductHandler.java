@@ -24,11 +24,12 @@ public class ShowProductHandler implements RequestHandler{
 		 * Este handler obtiene el id del producto a mostrar
 		 */
 		
-try {
+		try {
 			
 			HttpSession session = request.getSession(true);
 			session.setAttribute("idtoShow", request.getParameter("Id"));
-			
+			String idproducto=(String) session.getAttribute("idtoShow");
+			System.out.println("id producto" + idproducto);
 			String query = "productos/" + request.getParameter("Id");
 			
 			System.out.println(query);

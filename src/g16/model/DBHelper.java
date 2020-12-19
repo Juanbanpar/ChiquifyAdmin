@@ -69,13 +69,12 @@ public class DBHelper {
 		disconect();
 	}
 	
-	public Usuario getUser(String email, String password) {
+	public Usuario getUser(String email) {
 		connect();
 	
 		try {
-			PreparedStatement ps = _connection.prepareStatement("select * from usuario where email = ? and passwd = MD5(?)");
+			PreparedStatement ps = _connection.prepareStatement("select * from usuario where email = ? ");
 			ps.setString(1, email);
-			ps.setString(2, password);
 			
 			ResultSet rs = ps.executeQuery();
 			Usuario user = null;
@@ -95,6 +94,8 @@ public class DBHelper {
 			return null;
 		}
 	}
+	
+	
 	
 	public List<Usuario> getAllUsers() {
 		connect();
