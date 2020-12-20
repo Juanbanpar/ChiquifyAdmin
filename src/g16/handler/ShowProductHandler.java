@@ -29,10 +29,8 @@ public class ShowProductHandler implements RequestHandler{
 			HttpSession session = request.getSession(true);
 			session.setAttribute("idtoShow", request.getParameter("Id"));
 			String idproducto=(String) session.getAttribute("idtoShow");
-			System.out.println("id producto" + idproducto);
 			String query = "productos/" + request.getParameter("Id");
 			
-			System.out.println(query);
 			
 			Client client = ClientBuilder.newClient();
 			WebTarget webResource = client.target("http://localhost:11603").path(query);
@@ -42,12 +40,9 @@ public class ShowProductHandler implements RequestHandler{
 			if (auxResponse.getStatus() != Response.Status.OK.getStatusCode()) {
 				throw new HTTPException(auxResponse.getStatus());
 			}
-						
-			System.out.println("El vendedor es: " + (String)result.getVendedor().getEmail());
 			
 			request.setAttribute("productoShow", result);
 			
-			System.out.println(result.getTitulo());
 			
 		}catch(HTTPException h) {
 			switch(h.getStatusCode()) {
