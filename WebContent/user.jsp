@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1" import="g16.model.DBHelper"%> 
+    pageEncoding="ISO-8859-1"%> 
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
